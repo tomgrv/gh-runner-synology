@@ -1,0 +1,53 @@
+## Modules
+node_modules
+**/node_modules
+
+## Storage
+public/storage
+storage
+
+## Composer
+vendor
+**/vendor
+_ide_helper.php
+
+## DotEnv
+.env*
+!.env.project
+!.env.vault
+
+## Logs
+*.log
+*.cache
+
+## Homestead
+Homestead.json
+Homestead.yaml
+
+## Misc
+.history
+.version.json
+
+## Diff
+.rej
+.orig
+.gitattributes
+.vscode/tasks.json
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+.vscode
+.husky
+node_modules/@tomgrv\devutils\stub\.gitattributes
+node_modules/@tomgrv\devutils\stub\.vscode\tasks.json
+node_modules/@tomgrv\devutils\stub\.vscode\settings.json
+node_modules/@tomgrv\devutils\stub\.vscode\launch.json
+node_modules/@tomgrv\devutils\stub\.vscode\extensions.json
+.vscode/tasks.json
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+/.vscode
+/.husky
+/.gitutils
+/.package

@@ -1,0 +1,152 @@
+{
+  "scripts": {
+    "lint": "lint-staged",
+    "update": "npx npm-check-updates -i -u",
+    "update-all": "npm run update -ws --root",
+    "release": "npx commit-and-tag-version --no-verify --",
+    "publish-beta": "git release-beta",
+    "publish-prod": "git release-prod",
+    "test": "echo \"Warning: no test specified\""
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "subject-case": [
+        2,
+        "never",
+        [
+          "start-case",
+          "pascal-case",
+          "upper-case"
+        ]
+      ],
+      "scope-enum": [
+        2,
+        "always",
+        [
+          "deps",
+          "release",
+          "security",
+          "i18n",
+          "config",
+          "add",
+          "remove",
+          "breaking",
+          "modules",
+          "packages",
+          "ui-ux",
+          "api",
+          "model"
+        ]
+      ]
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,md,html,css,json,vue, yaml, yml}": [
+      "prettier --write"
+    ],
+    "*.php": [
+      "composer lint"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
+  },
+  "prettier": {
+    "insertPragma": true,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "trailingComma": "es5"
+  },
+  "devDependencies": {
+    "@tomgrv/devutils": "^0.11.0"
+  },
+  "git-precommit-checks": {
+    "rules": [
+      {
+        "message": "You've got leftover conflict markers",
+        "regex": "/^[<>|=]{4,}/m"
+      },
+      {
+        "filter": "(^package\\.json|\\.git-precommit-checks.json)$",
+        "message": "You have unfinished devs",
+        "nonBlocking": "true",
+        "regex": "(?:FIXME|TODO)"
+      }
+    ]
+  },
+  "standard-version": {
+    "bumpFiles": [
+      {
+        "filename": "composer.json",
+        "type": "json"
+      },
+      {
+        "filename": "package.json",
+        "type": "json"
+      },
+      {
+        "filename": "VERSION",
+        "type": "plain-text"
+      }
+    ]
+  },
+  "commit-and-tag-version": {
+    "bumpFiles": [
+      {
+        "filename": "composer.json",
+        "type": "json"
+      },
+      {
+        "filename": "package.json",
+        "type": "json"
+      },
+      {
+        "filename": "VERSION",
+        "type": "plain-text"
+      }
+    ],
+    "types": [
+      {
+        "type": "feat",
+        "section": "Features"
+      },
+      {
+        "type": "fix",
+        "section": "Bug Fixes"
+      },
+      {
+        "type": "chore",
+        "hidden": true
+      },
+      {
+        "type": "docs",
+        "hidden": true
+      },
+      {
+        "type": "style",
+        "hidden": true
+      },
+      {
+        "type": "refactor",
+        "hidden": true
+      },
+      {
+        "type": "perf",
+        "hidden": true
+      },
+      {
+        "type": "test",
+        "hidden": true
+      }
+    ],
+    "scripts": {
+      "prebump": "gitversion -config .gitversion -showvariable MajorMinorPatch"
+    }
+  }
+}
