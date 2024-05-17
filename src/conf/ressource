@@ -1,0 +1,43 @@
+{
+    "docker": {
+        "services": [
+            {
+                "service": "synology-github-runner",
+                "image": "myoung34/github-runner",
+                "container_name": "github-runner",
+                "tag": "latest",
+                "restart": "always",
+                "volumes": [
+                    {
+                        "host_dir": "@DOCKER_SOCK@",
+                        "mount_point": "/var/run/docker.sock"
+                    }
+                ],
+                "shares": [
+                    {
+                        "host_dir": "tmp",
+                        "mount_point": "/tmp/github-runner"
+                    }
+                ],
+                "environment": [
+                    {
+                        "env_var": "ACCESS_TOKEN",
+                        "env_value": "{{ wizard_access_token }}"
+                    },
+                    {
+                        "env_var": "RUNNER_SCOPE",
+                        "env_value": "{{ wizard_runner_scope }}"
+                    },
+                    {
+                        "env_var": "ORG_NAME",
+                        "env_value": "{{ wizard_org_name }}"
+                    },
+                    {
+                        "env_var": "LABELS",
+                        "env_value": "{{ wizard_labels }}"
+                    }
+                ]
+            }
+        ]
+    }
+}

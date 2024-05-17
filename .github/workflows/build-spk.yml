@@ -7,18 +7,23 @@ on:
             - 'feature/**'
 
 jobs:
-    Package:
-        name: Create SPK
+    build-spk:
+        name: Build Synology SPK
         runs-on: ubuntu-latest
         strategy:
           fail-fast: false
+          matrix:
+            arch:
+              - avoton
         steps:
             - name: Checkout
               uses: actions/checkout@v3
             - name: Build Package
-              uses: tomgrv/synology-package-builder@v1
+              uses: tomgrv/synology-package-builder@develop
+              with:
+                  arch: ${{ matrix.arch }}
             - name: Upload Package
               uses: actions/upload-artifact@v3
               with:
                   name: packages
-                  path: ./toolkit/result_spk/**/*.spk
+                  path: ./bin/*.spk

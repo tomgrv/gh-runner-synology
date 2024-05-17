@@ -1,13 +1,21 @@
 {
-  "scripts": {
-    "lint": "lint-staged",
-    "update": "npx npm-check-updates -i -u",
-    "update-all": "npm run update -ws --root",
-    "release": "npx commit-and-tag-version --no-verify --",
-    "publish-beta": "git release-beta",
-    "publish-prod": "git release-prod",
-    "test": "echo \"Warning: no test specified\""
+  "name": "github-runner",
+  "displayName": "Github Runner",
+  "version": "0.0.0",
+  "description": "Synology GitHub Runner",
+  "os": [
+    "dsm:7.0-40337"
+  ],
+  "dsmConfig": {
+    "install_dep_packages": {
+      "Docker": ">=18.09.0-1017"
+    },
+    "thirdparty": "yes",
+    "arch": "avoton",
+    "adminurl": "wordpress",
+    "dsmuidir": "ui"
   },
+  "private": true,
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -45,7 +53,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,html,css,json,vue, yaml, yml}": [
-      "prettier --write"
+      "npx prettier --write"
     ],
     "*.php": [
       "composer lint"
@@ -62,9 +70,6 @@
     "singleQuote": true,
     "tabWidth": 4,
     "trailingComma": "es5"
-  },
-  "devDependencies": {
-    "@tomgrv/devutils": "^0.11.0"
   },
   "git-precommit-checks": {
     "rules": [
@@ -148,5 +153,9 @@
     "scripts": {
       "prebump": "gitversion -config .gitversion -showvariable MajorMinorPatch"
     }
+  },
+  "scripts": {
+    "release": "npx commit-and-tag-version --no-verify --",
+    "lint": "npx lint-staged"
   }
 }

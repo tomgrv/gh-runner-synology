@@ -1,10 +1,29 @@
 #!/bin/sh
-# Copyright (C) 2000-2016 Synology Inc. All rights reserved.
 
-### This script will be executed when package installed and upgraded.
-### Actions after package installed.
-### ex. create database, create symbolic link...
+### Init port file
+PORT_CONFIG_FILE="/var/packages/$SYNOPKG_PKGNAME/etc/port_config"
 
-ln -sf $SYNOPKG_PKGDEST/usr/bin/minimalPkg /usr/bin/
+### Get the port from the wizard or the previous installation
+local port=""
+if [ ! -z "$wizard_http_port" ]; then
+    # new install
+    port="$wizard_http_port"
+elif [ -f "$PORT_CONFIG_FILE" ]; then
+    # upgrade
+    port=$(get_key_value "$PORT_CONFIG_FILE" port)
+fi
+
+### Set the port in the configuration file
+echo "port=$port" >$PORT_CONFIG_FILE
+
+### Update the configuration according to the port
+if [ -f "$SYNOPKG_PKGDEST/app/config" ]; then
+    sed -i "s/@PORT@/$port/g" "$SYNOPKG_PKGDEST/ui/config"
+fi
+
+### Update the configuration if docker-in-docker is required
+if [ -f "$SYNOPKG_PKGDEST/docker-compose.yml" ]; then
+    sed -i "s/[a-zA-Z\/]+@DOCKER_SOCK@/\/var\/run\/docker.sock/g" "$SYNOPKG_PKGDEST/docker-compose.yml"
+fi
 
 exit 0
