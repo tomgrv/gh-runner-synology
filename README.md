@@ -1,1 +1,3 @@
+<!-- @format -->
+
 # gh-runner-synology

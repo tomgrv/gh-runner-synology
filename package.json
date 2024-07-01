@@ -1,161 +1,178 @@
 {
-  "name": "github-runner",
-  "displayName": "Github Runner",
-  "version": "0.0.0",
-  "description": "Synology GitHub Runner",
-  "os": [
-    "dsm:7.0-40337"
-  ],
-  "dsmConfig": {
-    "install_dep_packages": {
-      "Docker": ">=18.09.0-1017"
-    },
-    "thirdparty": "yes",
-    "arch": "avoton",
-    "adminurl": "wordpress",
-    "dsmuidir": "ui"
-  },
-  "private": true,
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ],
-    "rules": {
-      "subject-case": [
-        2,
-        "never",
-        [
-          "start-case",
-          "pascal-case",
-          "upper-case"
-        ]
-      ],
-      "scope-enum": [
-        2,
-        "always",
-        [
-          "deps",
-          "release",
-          "security",
-          "i18n",
-          "config",
-          "add",
-          "remove",
-          "breaking",
-          "modules",
-          "packages",
-          "ui-ux",
-          "api",
-          "model"
-        ]
-      ]
-    }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,md,html,css,json,vue, yaml, yml}": [
-      "npx prettier --write"
-    ],
-    "*.php": [
-      "composer lint"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "@commitlint/cz-commitlint"
-    }
-  },
-  "prettier": {
-    "insertPragma": true,
-    "semi": false,
-    "singleQuote": true,
-    "tabWidth": 4,
-    "trailingComma": "es5"
-  },
-  "git-precommit-checks": {
-    "rules": [
-      {
-        "message": "You've got leftover conflict markers",
-        "regex": "/^[<>|=]{4,}/m"
-      },
-      {
-        "filter": "(^package\\.json|\\.git-precommit-checks.json)$",
-        "message": "You have unfinished devs",
-        "nonBlocking": "true",
-        "regex": "(?:FIXME|TODO)"
-      }
-    ]
-  },
-  "standard-version": {
-    "bumpFiles": [
-      {
-        "filename": "composer.json",
-        "type": "json"
-      },
-      {
-        "filename": "package.json",
-        "type": "json"
-      },
-      {
-        "filename": "VERSION",
-        "type": "plain-text"
-      }
-    ]
-  },
-  "commit-and-tag-version": {
-    "bumpFiles": [
-      {
-        "filename": "composer.json",
-        "type": "json"
-      },
-      {
-        "filename": "package.json",
-        "type": "json"
-      },
-      {
-        "filename": "VERSION",
-        "type": "plain-text"
-      }
-    ],
-    "types": [
-      {
-        "type": "feat",
-        "section": "Features"
-      },
-      {
-        "type": "fix",
-        "section": "Bug Fixes"
-      },
-      {
-        "type": "chore",
-        "hidden": true
-      },
-      {
-        "type": "docs",
-        "hidden": true
-      },
-      {
-        "type": "style",
-        "hidden": true
-      },
-      {
-        "type": "refactor",
-        "hidden": true
-      },
-      {
-        "type": "perf",
-        "hidden": true
-      },
-      {
-        "type": "test",
-        "hidden": true
-      }
-    ],
+    "name": "github-runner",
+    "displayName": "Github Runner",
+    "version": "0.0.0",
+    "private": true,
+    "description": "Synology GitHub Runner",
     "scripts": {
-      "prebump": "gitversion -config .gitversion -showvariable MajorMinorPatch"
+        "lint": "npx --yes lint-staged",
+        "release": "npx --yes commit-and-tag-version --no-verify --",
+        "test": "echo \"Warning: no test specified\"",
+        "update": "npm-check-updates -i -u",
+        "update-all": "npm run update -ws --root"
+    },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ],
+        "rules": {
+            "subject-case": [
+                2,
+                "never",
+                [
+                    "start-case",
+                    "pascal-case",
+                    "upper-case"
+                ]
+            ],
+            "scope-enum": [
+                2,
+                "always",
+                [
+                    "deps",
+                    "release",
+                    "security",
+                    "i18n",
+                    "config",
+                    "add",
+                    "remove",
+                    "breaking",
+                    "modules",
+                    "packages",
+                    "ui-ux",
+                    "api",
+                    "model"
+                ]
+            ]
+        }
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx,md,html,css,json,vue, yaml, yml}": [
+            "npx prettier --write"
+        ],
+        "*.php": [
+            "composer lint"
+        ],
+        "*.{js,jsx,ts,tsx,md,html,css,json,vue, yaml, yml, sh}": [
+            "npx --yes prettier --write"
+        ],
+        "composer.lock": [
+            "composer validate --ansi --strict"
+        ],
+        "package.json": [
+            "npx --yes sort-package-json"
+        ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "@commitlint/cz-commitlint"
+        }
+    },
+    "prettier": {
+        "insertPragma": true,
+        "plugins": [
+            "prettier-plugin-sh"
+        ],
+        "semi": false,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "es5"
+    },
+    "publishConfig": {
+        "os": [
+            "dsm:7.0-40337"
+        ]
+    },
+    "commit-and-tag-version": {
+        "bumpFiles": [
+            {
+                "filename": "composer.json",
+                "type": "json"
+            },
+            {
+                "filename": "package.json",
+                "type": "json"
+            },
+            {
+                "filename": "VERSION",
+                "type": "plain-text"
+            }
+        ],
+        "types": [
+            {
+                "type": "feat",
+                "section": "Features"
+            },
+            {
+                "type": "fix",
+                "section": "Bug Fixes"
+            },
+            {
+                "type": "chore",
+                "hidden": true
+            },
+            {
+                "type": "docs",
+                "hidden": true
+            },
+            {
+                "type": "style",
+                "hidden": true
+            },
+            {
+                "type": "refactor",
+                "hidden": true
+            },
+            {
+                "type": "perf",
+                "hidden": true
+            },
+            {
+                "type": "test",
+                "hidden": true
+            }
+        ],
+        "scripts": {
+            "prebump": "gitversion -config .gitversion -showvariable MajorMinorPatch"
+        }
+    },
+    "dsmConfig": {
+        "install_dep_packages": {
+            "Docker": ">=18.09.0-1017"
+        },
+        "thirdparty": "yes",
+        "arch": "avoton",
+        "adminurl": "wordpress",
+        "dsmuidir": "ui"
+    },
+    "git-precommit-checks": {
+        "rules": [
+            {
+                "message": "You've got leftover conflict markers",
+                "regex": "/^[<>|=]{4,}/m"
+            },
+            {
+                "filter": "(^package\\.json|\\.git-precommit-checks.json)$",
+                "message": "You have unfinished devs",
+                "nonBlocking": "true",
+                "regex": "(?:FIXME|TODO)"
+            }
+        ]
+    },
+    "standard-version": {
+        "bumpFiles": [
+            {
+                "filename": "composer.json",
+                "type": "json"
+            },
+            {
+                "filename": "package.json",
+                "type": "json"
+            },
+            {
+                "filename": "VERSION",
+                "type": "plain-text"
+            }
+        ]
     }
-  },
-  "scripts": {
-    "release": "npx commit-and-tag-version --no-verify --",
-    "lint": "npx lint-staged"
-  }
 }
