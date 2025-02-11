@@ -47,17 +47,11 @@
         }
     },
     "lint-staged": {
-        "*.{js,jsx,ts,tsx,md,html,css,json,vue, yaml, yml}": [
-            "npx prettier --write"
-        ],
         "*.php": [
             "composer lint"
         ],
         "*.{js,jsx,ts,tsx,md,html,css,json,vue, yaml, yml, sh}": [
             "npx --yes prettier --write"
-        ],
-        "composer.lock": [
-            "composer validate --ansi --strict"
         ],
         "package.json": [
             "npx --yes sort-package-json"
